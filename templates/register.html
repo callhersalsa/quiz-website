@@ -3,28 +3,47 @@
 <div class="auth-form mx-auto shadow-lg">
     <h3 class="text-center fw-bold mb-4 gradient-text">Create Your Account</h3>
     <form method="POST">
-        {{ form.hidden_tag() }}  <!-- CSRF token -->
+        {{ form.hidden_tag() }}
 
-        <!-- Forms Field -->
+        <!-- Full Name -->
         <div class="mb-3">
             {{ form.name.label(class="form-label") }}
             {{ form.name(class="form-control", placeholder="Your full name") }}
+            {% for error in form.name.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
         </div>
+
+        <!-- Username -->
         <div class="mb-3">
             {{ form.username.label(class="form-label") }}
             {{ form.username(class="form-control", placeholder="Username") }}
+            {% for error in form.username.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
         </div>
+
+        <!-- Password -->
         <div class="mb-3">
             {{ form.password.label(class="form-label") }}
             {{ form.password(class="form-control", placeholder="Password") }}
+            {% for error in form.password.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
         </div>
+
+        <!-- Confirm Password -->
         <div class="mb-4">
             {{ form.confirm.label(class="form-label") }}
             {{ form.confirm(class="form-control", placeholder="Confirm Password") }}
+            {% for error in form.confirm.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
         </div>
 
         {{ form.submit(class="btn btn-gradient w-100 py-2 fw-bold fs-5") }}
     </form>
 </div>
 {% endblock %}
+
 

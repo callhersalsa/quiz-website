@@ -164,8 +164,8 @@ main {
 /* === Quiz Container & Leaderboard === */
 .quiz-container,
 .leaderboard-box {
-    background: rgba(255, 255, 255, 0.9); /* slightly transparent glass */
-    backdrop-filter: blur(12px); /* subtle frosted effect */
+    background: rgba(255, 255, 255, 0.9); /* glass effect */
+    backdrop-filter: blur(12px);
     border-radius: 18px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
     margin: 50px auto;
@@ -182,7 +182,7 @@ main {
     box-shadow: 0 14px 35px rgba(0, 0, 0, 0.18);
 }
 
-/* Quiz Header & Text */
+/* === Quiz Text & Header === */
 .quiz-header,
 .quiz-container p,
 .quiz-container h5 {
@@ -193,8 +193,8 @@ main {
 
 .quiz-header {
     font-weight: 700;
-    font-size: 2.0rem;
-    color: #4a3570; 
+    font-size: 2rem;
+    color: #4a3570;
     margin-bottom: 20px;
 }
 
@@ -248,51 +248,52 @@ main {
 
 /* === Leaderboard === */
 .leaderboard-box {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
+    max-width: 700px;
+    padding: 30px;
+    text-align: center;
+    backdrop-filter: blur(10px); /* slightly less blur than quiz */
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    margin: 50px auto;
-    padding: 30px;
-    max-width: 700px;
-    text-align: center;
-    animation: fadeInUp 0.6s ease;
 }
 
-/* Header cells */
-.leaderboard-box th {
-    background-color: #6184DB;
-    color: #fff;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 14px 20px;
-    border-radius: 10px 10px 0 0;
+.leaderboard-box table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px; /* space between rows */
 }
 
-/* Table body cells */
+.leaderboard-box th,
 .leaderboard-box td {
-    color: #533A71;
+    padding: 12px 16px;
     font-weight: 600;
-    padding: 14px 20px;
-    background-color: rgba(97, 132, 219, 0.08);
-    border-bottom: 1px solid rgba(97, 132, 219, 0.25);
     transition: 0.3s ease;
 }
 
-/* Hover effect */
+.leaderboard-box th {
+    background-color: #6184DB;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 10px 10px 0 0;
+}
+
+.leaderboard-box td {
+    background-color: rgba(97, 132, 219, 0.08);
+    color: #533A71;
+    border-bottom: 1px solid rgba(97, 132, 219, 0.25);
+}
+
 .leaderboard-box tr:hover td {
     background-color: rgba(97, 132, 219, 0.2);
 }
 
-/* Top rank highlight */
 .leaderboard-box tr:first-child td {
     background-color: #9CEC5B;
     color: #2e2e2e;
     font-weight: 700;
 }
 
-/* == Animation for smooth load == */
+/* === Animation for smooth load == */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -303,6 +304,5 @@ main {
         transform: translateY(0);
     }
 }
-
 
 

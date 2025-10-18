@@ -20,7 +20,7 @@ from quiz_data import get_random_question, total_questions
 from collections import Counter
 from data.weather_codes import wc_map
 from data.weather_icons import icon_for
-
+from datetime import datetime
 
 import requests
 import os
@@ -32,7 +32,7 @@ def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
     # SECRET_KEY for WTForms CSRF and session security. Replace in production with a secure env var.
     app.config["SECRET_KEY"] = os.environ.get("LEETQUIZ_SECRET", "dev-secret-key-change-me")
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASE_DIR, "myquizai.db")
+    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(BASE_DIR, "leetquiz.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
@@ -146,22 +146,22 @@ def create_app():
                 flash("Failed to fetch weather data. Please try again.", "danger")
         return render_template("home.html",weather=weather, today=weather["days"][0] if weather else None)
 
-    # User Registration
     @app.route("/register", methods=["GET", "POST"])
     def register():
         form = RegisterForm()
         if form.validate_on_submit():
             username = form.username.data.strip().lower()
             existing = User.query.filter_by(username=username).first()
+
             if existing:
-                flash("Username already taken. Choose another.", "warning")
-                return redirect(url_for("register"))
+                form.username.errors.append("✖ Username already taken. Please choose another.")
+                return render_template("register.html", form=form)
 
             user = User(name=form.name.data.strip(), username=username)
             user.set_password(form.password.data)
             db.session.add(user)
             db.session.commit()
-            flash("Account created! Please log in.", "success")
+            flash("✔ Account created! Please log in.", "success")
             return redirect(url_for("login"))
 
         return render_template("register.html", form=form)
@@ -173,15 +173,22 @@ def create_app():
         if form.validate_on_submit():
             username = form.username.data.strip().lower()
             user = User.query.filter_by(username=username).first()
-            if user and user.check_password(form.password.data):
-                session.clear()
-                session["username"] = user.username
-                session["user_id"] = user.id
-                session["answered_count"] = session.get("answered_count", 0)
-                flash("Logged in successfully.", "success")
-                return redirect(url_for("home"))
 
-            flash("Invalid username or password.", "danger")
+            if not user:
+                form.username.errors.append("✖ Username not found.")
+            elif not user.check_password(form.password.data):
+                form.password.errors.append("✖ Incorrect password.")
+
+            if form.username.errors or form.password.errors:
+                return render_template("login.html", form=form)
+
+            # Successful login
+            session.clear()
+            session["username"] = user.username
+            session["user_id"] = user.id
+            session["answered_count"] = session.get("answered_count", 0)
+            flash("✔ Logged in successfully.", "success")
+            return redirect(url_for("home"))
 
         return render_template("login.html", form=form)
 

@@ -3,18 +3,26 @@
 <div class="auth-form mx-auto shadow-lg">
     <h3 class="text-center fw-bold mb-4 gradient-text">Login to LeetQuiz</h3>
     <form method="POST">
-        {{ form.hidden_tag() }}  <!-- CSRF token -->
+        {{ form.hidden_tag() }}
 
         <div class="mb-3">
             {{ form.username.label(class="form-label text-dark fw-semibold") }}
             {{ form.username(class="form-control form-control-lg", placeholder="Enter your username") }}
+            {% for error in form.username.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
         </div>
+
         <div class="mb-4">
             {{ form.password.label(class="form-label text-dark fw-semibold") }}
             {{ form.password(class="form-control form-control-lg", placeholder="Enter your password") }}
+            {% for error in form.password.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
         </div>
 
         {{ form.submit(class="btn btn-gradient w-100 py-2 fw-bold fs-5") }}
     </form>
 </div>
 {% endblock %}
+

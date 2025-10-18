@@ -2,8 +2,9 @@
 {% block content %}
 <h3 class="text-center fw-bold mb-4">🏆 Global Leaderboard 🏆</h3>
 
-<div class="table-responsive mx-auto leaderboard-box p-3 shadow-sm" style="max-width:600px; border-radius:15px; background:#fff;">
-    <table class="table table-hover text-center mb-0" style="color:#533A71;">
+<div class="leaderboard-box">
+  <div class="table-responsive">
+    <table class="table table-hover text-center mb-0">
         <thead class="gradient-bg text-white rounded-top">
             <tr>
                 <th>Rank</th>
@@ -21,5 +22,6 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
 </div>
 {% endblock %}
