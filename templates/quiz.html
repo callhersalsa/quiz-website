@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center mb-4">
+    <h3 class="fw-bold">Train Your NLP Knowledge</h3>
+    <p class="score-box">Your total score: <strong>{{ score }}</strong></p>
+</div>
+
+<div class="quiz-container" id="quiz">
+    <div id="question-container">
+        <p class="question" id="question"></p>
+        <div class="options" id="options"></div>
+    </div>
+</div>
+
+<script>
+const QUESTION_DATA = {{ session.get('current_question', {}) | tojson | safe }};
+const PROGRESS_PERCENT = {{ progress if progress is defined else 0 }};
+</script>
+<script src="{{ url_for('static', filename='quiz.js') }}"></script>
+{% endblock %}

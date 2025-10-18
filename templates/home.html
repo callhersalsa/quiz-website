@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+    <!-- Welcome Message -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold mb-2">
+            Hi {% if session.username %}{{ session.username }}{% else %}there{% endif %}!
+        </h2>
+        <p class="lead">Welcome to LeetQuiz — explore NLP quizzes, check the weather, and climb the leaderboard!</p>
+    </div>
+
+    <!-- Search bar card -->
+    <div class="card shadow-lg border-0 mx-auto p-4 weather-card">
+        <form method="get" action="/" class="text-center mb-2">
+            <input type="text" name="city" placeholder="Enter city name..." 
+                  class="form-control text-center w-100 mx-auto mb-3" 
+                  value="{{ request.args.get('city', '') }}">
+            <button class="btn btn-light w-100 btn-check-weather">Check Weather</button>
+        </form>
+    </div>
+
+    {% if weather %}
+    <!-- Weather results -->
+    <div class="weather-container bg-white rounded-4 p-4 shadow">
+        <h2 class="text-center mb-4">{{ weather.city }}</h2>
+
+      <!-- Today (Detailed Section) -->
+      {% set today = weather.days[0] %}
+      <div class="today mb-5">
+          <div class="d-flex justify-content-between align-items-center flex-wrap p-3 shadow-sm rounded bg-light">
+
+              <!-- LEFT SIDE -->
+              <div class="left-section">
+                  <h3 class="fw-bold mb-1">{{ weather.city }}</h3>
+                  <h5 class="text-muted mb-3">{{ today.date }}</h5>
+
+                  <div class="d-flex align-items-center gap-4">
+                      <!-- Day -->
+                      <div class="text-center">
+                          <img src="https://openweathermap.org/img/wn/{{ today.day.icon }}@2x.png" 
+                              alt="{{ today.day.description }}" width="80">
+                          <p class="mb-0 fw-semibold">Day: {{ today.day.description }}</p>
+                          <p class="mb-0">{{ today.day.temp_min }}°C – {{ today.day.temp_max }}°C</p>
+                      </div>
+
+                      <!-- Night -->
+                      <div class="text-center">
+                          <img src="https://openweathermap.org/img/wn/{{ today.night.icon }}@2x.png" 
+                              alt="{{ today.night.description }}" width="80">
+                          <p class="mb-0 fw-semibold">Night: {{ today.night.description }}</p>
+                          <p class="mb-0">{{ today.night.temp_min }}°C – {{ today.night.temp_max }}°C</p>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- RIGHT SIDE -->
+              <div class="right-section small text-end text-muted">
+                <p><strong>Wind:</strong> {{ (today.day.wind / today.night.wind) | round(2) }} km/h</p>
+                <p><strong>Humidity:</strong> {{ (today.day.humidity / today.night.humidity) | round(2) }}%</p>
+                <p><strong>Precipitation:</strong> {{ (today.day.precipitation / today.night.precipitation) | round(2) }} mm</p>
+              </div>
+          </div>
+      </div>
+
+        <!-- Tomorrow + Day After -->
+        <div class="row text-center">
+            {% for day in weather.days[1:] %}
+            <div class="col-md-6 mb-4">
+                <div class="border rounded-4 p-3 shadow-sm">
+                    <h5 class="fw-bold">{{ day.date }}</h5>
+                    <div class="d-flex justify-content-center align-items-center gap-4 mt-3">
+                        <div>
+                            <img src="https://openweathermap.org/img/wn/{{ day.day.icon }}@2x.png" 
+                                 alt="{{ day.day.description }}" width="70">
+                            <p class="mb-0">Day: {{ day.day.temp_min }}°C – {{ day.day.temp_max }}°C</p>
+                        </div>
+                        <div>
+                            <img src="https://openweathermap.org/img/wn/{{ day.night.icon }}@2x.png" 
+                                 alt="{{ day.night.description }}" width="70">
+                            <p class="mb-0">Night: {{ day.night.temp_min }}°C – {{ day.night.temp_max }}°C</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
