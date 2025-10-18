@@ -111,6 +111,13 @@ Website Link
 ------------------------------------------------------------
 https://raininmyhead.pythonanywhere.com/
 
+
+------------------------------------------------------------
+UI Template Reources
+------------------------------------------------------------
+- [Weather Widget Template](https://codesandbox.io/p/sandbox/weather-app-html-css-n0zy9f?file=%2Findex.html%3A17%2C7)
+- [Quiz Box](https://bootstrapexamples.com/@ross-wille/interactive-quiz-application)
+- [OpenWeatherMap Icons for weather icons](https://openweathermap.org/weather-conditions)
 ------------------------------------------------------------
 Connect With Me:
 ------------------------------------------------------------
